@@ -21,9 +21,27 @@ jobs:
       - name: Install APT repo tools & generate Packages index
         run: |
           sudo apt-get update
-          sudo apt-get install -y dpkg-dev zstd xz-utils bzip2
+          sudo apt-get install -y dpkg-dev zstd xz-utils bzip2 python3
           mkdir -p debs
           dpkg-scanpackages -m ./debs > Packages
+          python3 - << 'EOF'
+          with open("Packages", "r", encoding="utf-8") as f:
+              raw = f.read().strip()
+          stanzas = [s.strip() for s in raw.split("\n\n") if s.strip()]
+          out = []
+          for s in stanzas:
+              if "Package: com.dnullptr.metalfg" in s and "SileoDepiction:" not in s:
+                  s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json"
+                  if "Icon:" not in s:
+                      s += "\nIcon: https://dnullptr.github.io/repo/CydiaIcon.png"
+              elif "Package: com.dnullptr.depuke" in s and "SileoDepiction:" not in s:
+                  s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json"
+                  if "Icon:" not in s:
+                      s += "\nIcon: https://dnullptr.github.io/repo/CydiaIcon.png"
+              out.append(s)
+          with open("Packages", "w", encoding="utf-8") as f:
+              f.write("\n\n".join(out) + ("\n\n" if out else ""))
+          EOF
           gzip -c9 Packages > Packages.gz
           xz -c9 Packages > Packages.xz
           zstd -c19 Packages > Packages.zst
