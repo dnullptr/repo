@@ -6,10 +6,10 @@ Maintainer: dnullptr
 Author: dnullptr
 Section: Tweaks
 Tag: role::tweaks
-Icon: file:///Library/PreferenceBundles/DePukePrefs.bundle/logo@3x.png
 Architecture: iphoneos-arm64
 Version: 1.0.1
 Installed-Size: 1084
+Icon: https://dnullptr.github.io/repo/CydiaIcon.png
 SileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json
 Filename: ./debs/com.dnullptr.depuke_1.0.1_iphoneos-arm64.deb
 Size: 417118
@@ -28,8 +28,8 @@ Tag: role::hacker
 Architecture: iphoneos-arm64
 Version: 2.3.0
 Installed-Size: 372
+Icon: https://dnullptr.github.io/repo/icons/metalfg.png
 SileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json
-Icon: https://dnullptr.github.io/repo/CydiaIcon.png
 Filename: ./debs/com.dnullptr.metalfg_2.3.0_iphoneos-arm64.deb
 Size: 75026
 MD5sum: e64ed43dc0ad9d951eb363b22ef32c1a

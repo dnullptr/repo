@@ -6,6 +6,8 @@ on:
     paths:
       - 'debs/**'
       - 'Release'
+  schedule:
+    - cron: '0 */2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -18,11 +20,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install APT repo tools & generate Packages index
+      - name: Auto-fetch latest .debs from MetalFG and DePuke Releases & build APT index
         run: |
           sudo apt-get update
           sudo apt-get install -y dpkg-dev zstd xz-utils bzip2 python3
           mkdir -p debs
+          python3 - << 'EOF'
+          import os, json, shutil, urllib.request
+
+          repos = ["dnullptr/MetalFG", "dnullptr/DePuke"]
+          for repo in repos:
+              url = f"https://api.github.com/repos/{repo}/releases"
+              req = urllib.request.Request(url, headers={"User-Agent": "dnullptr-repo-sync"})
+              with urllib.request.urlopen(req) as resp:
+                  releases = json.loads(resp.read().decode("utf-8"))
+              if not releases:
+                  continue
+              # Find newest .deb asset across releases (sorted by updated_at)
+              deb_assets = []
+              for rel in releases:
+                  for asset in rel.get("assets", []):
+                      if asset["name"].endswith(".deb"):
+                          deb_assets.append((asset.get("updated_at", ""), asset["name"], asset["browser_download_url"]))
+              if deb_assets:
+                  deb_assets.sort(reverse=True)
+                  _, name, dl_url = deb_assets[0]
+                  pkg_prefix = name.split("_")[0] + "_"
+                  # Remove older versions of the same package in debs/
+                  for existing in os.listdir("debs"):
+                      if existing.startswith(pkg_prefix) and existing != name:
+                          os.remove(os.path.join("debs", existing))
+                  dest = os.path.join("debs", name)
+                  print(f"[+] Downloading latest {repo} package: {name}")
+                  dreq = urllib.request.Request(dl_url, headers={"User-Agent": "dnullptr-repo-sync"})
+                  with urllib.request.urlopen(dreq) as dresp, open(dest, "wb") as out:
+                      shutil.copyfileobj(dresp, out)
+          EOF
+
           dpkg-scanpackages -m ./debs > Packages
           python3 - << 'EOF'
           with open("Packages", "r", encoding="utf-8") as f:
@@ -30,15 +64,15 @@ jobs:
           stanzas = [s.strip() for s in raw.split("\n\n") if s.strip()]
           out = []
           for s in stanzas:
-              if "Package: com.dnullptr.metalfg" in s and "SileoDepiction:" not in s:
-                  s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json"
-                  if "Icon:" not in s:
-                      s += "\nIcon: https://dnullptr.github.io/repo/CydiaIcon.png"
-              elif "Package: com.dnullptr.depuke" in s and "SileoDepiction:" not in s:
-                  s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json"
-                  if "Icon:" not in s:
-                      s += "\nIcon: https://dnullptr.github.io/repo/CydiaIcon.png"
-              out.append(s)
+              lines = [line for line in s.splitlines() if not line.startswith("Icon:") and not line.startswith("SileoDepiction:")]
+              clean_s = "\n".join(lines)
+              if "Package: com.dnullptr.metalfg" in clean_s:
+                  clean_s += "\nIcon: https://dnullptr.github.io/repo/icons/metalfg.png"
+                  clean_s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json"
+              elif "Package: com.dnullptr.depuke" in clean_s:
+                  clean_s += "\nIcon: https://raw.githubusercontent.com/dnullptr/DePuke/main/layout/Library/PreferenceBundles/DePukePrefs.bundle/logo%403x.png"
+                  clean_s += "\nSileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json"
+              out.append(clean_s)
           with open("Packages", "w", encoding="utf-8") as f:
               f.write("\n\n".join(out) + ("\n\n" if out else ""))
           EOF
@@ -51,6 +85,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Packages Packages.gz Packages.xz Packages.zst Packages.bz2
-          git diff --staged --quiet || git commit -m "chore: auto-update APT Packages index"
+          git add debs/ Packages Packages.gz Packages.xz Packages.zst Packages.bz2
+          git diff --staged --quiet || git commit -m "chore: auto-sync latest tweak releases & update APT index"
           git push
