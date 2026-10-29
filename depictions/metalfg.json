@@ -1,0 +1,96 @@
+{
+  "minVersion": "0.4",
+  "class": "DepictionTabView",
+  "tintColor": "#28d973",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "Details",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Real-Time GPU Frame Generation for ProMotion iOS",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "**MetalFG (v2.3.0 Open Beta)** is a free, open-source, driver-level **GPU Frame Generation & Optical Flow Interpolation engine** for rootless jailbreak environments (**Dopamine**, **Palera1n**) on 120Hz ProMotion devices.\n\nInspired by PC frame generators like **Lossless Scaling (LSFG)**, **DLSS 3**, and **SMFG 1.1 (Super-Motion)**, MetalFG intercepts 60 FPS (or 30 FPS) Metal games (such as *Genshin Impact*) and synthesizes true midpoint optical-flow frames directly on the Apple Silicon GPU to drive your 120Hz ProMotion display at **120 FPS**.\n\n### Key Engine Features\n- **True 1-Frame Latency Midpoint Synthesis (`S_{N-0.5}`):** Caches Ground Truth Frame `N` in private VRAM, synthesizes the true temporal midpoint between Frame `N-1` and Frame `N` on VSYNC Tick 1, and hardware-paces Ground Truth Frame `N` onto VSYNC Tick 2 (`8.33ms` ProMotion cadence).\n- **SMFG 1.1 Coarse-to-Fine Optical Flow:** Multi-radius seed search + 3-level hierarchical coarse-to-fine refinement + analytical 1D parabolic sub-pixel fitting (`80x45` `RGBA16Float` grid in `< 0.5ms`).\n- **5x5 Bilateral Fluid Filter & Sub-Block Edge Resolver:** Propagates motion smoothly across flat/cel-shaded surfaces while keeping foreground silhouettes ghost-free.\n- **Clamped Catmull-Rom 5-Tap Sharp Reconstruction & Static HUD Protection:** Preserves native texture crispness while locking static UI, text, damage numbers, and minimaps in place.\n- **Live In-Game Frosted Glass Tuning Panel:** Drag the floating FPS pill anywhere, single-tap to toggle FG ON/OFF with haptics, or tap `⚙️` to switch presets (`Clear`, `Balanced`, `Fluid`) and tune parameters live in-game.\n- **100% Dopamine Userspace-Reboot Safe:** Strictly whitelisted to `/var/containers/Bundle/Application/` `.app` bundles—never touches `SpringBoard`, `backboardd`, or system daemons."
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "Information"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version",
+          "text": "2.3.0 (Open Beta)"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Compatibility",
+          "text": "iOS 16.0+ Rootless (iOS 15 ProMotion untested)"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "License",
+          "text": "100% Free & Open-Source Forever"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "Source Code & Support"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "GitHub Source Code",
+          "action": "https://github.com/dnullptr/MetalFG",
+          "openExternal": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "Ko-fi (Buy Me a Beer 🍺)",
+          "action": "https://ko-fi.com/dnullptr",
+          "openExternal": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "PayPal Donate 💙",
+          "action": "https://paypal.me/dnullptr",
+          "openExternal": true
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Changelog",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Version 2.3.0",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "- **Fixed Midpoint Interpolation Vector Direction:** Corrected `uvCurr` (`uv + effMV * t`) and `uvPrev` (`uv - effMV * t`) warp signs so moving objects step monotonically forward at the true 50% midpoint.\n- **Hardware-Paced 120Hz VSYNC Cadence:** Added `presentDrawable:afterMinimumDuration:` (`8.33ms` ProMotion pacing) and removed the `CADisplayLink` midpoint delay bottleneck.\n- **3-Level Coarse-to-Fine Optical Flow:** Upgraded `metalfg_block_motion_estimation` with hierarchical refinement around seed vectors plus parabolic sub-pixel fitting."
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Version 2.2.0",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "- Integrated **SMFG 1.1 Super-Motion** contrast-aware optical flow, `5x5` bilateral fluid filter, sub-block silhouette edge resolver, and clamped Catmull-Rom 5-tap sharp reconstruction.\n- Fixed Dopamine userspace reboot freeze by strictly whitelisting `/var/containers/Bundle/Application/` game bundles."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+name: Update APT Repo
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'debs/**'
+      - 'Release'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install APT repo tools & generate Packages index
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev zstd xz-utils bzip2
+          mkdir -p debs
+          dpkg-scanpackages -m ./debs > Packages
+          gzip -c9 Packages > Packages.gz
+          xz -c9 Packages > Packages.xz
+          zstd -c19 Packages > Packages.zst
+          bzip2 -c9 Packages > Packages.bz2
+
+      - name: Commit and push updated Packages index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Packages Packages.gz Packages.xz Packages.zst Packages.bz2
+          git diff --staged --quiet || git commit -m "chore: auto-update APT Packages index"
+          git push

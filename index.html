@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dnullptr's Repo — Official Rootless iOS Jailbreak Repository</title>
+  <link rel="icon" type="image/png" href="CydiaIcon.png" />
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card-bg: rgba(22, 25, 34, 0.72);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-green: #28d973;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 18% 15%, rgba(40, 217, 115, 0.12), transparent 38%),
+        radial-gradient(circle at 82% 20%, rgba(56, 189, 248, 0.12), transparent 38%),
+        radial-gradient(circle at 50% 85%, rgba(168, 85, 247, 0.08), transparent 45%);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.25rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 880px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .repo-icon {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+      margin-bottom: 1.1rem;
+      background: #12141c;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 2.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 55%, #28d973 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.45rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .url-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: rgba(15, 18, 26, 0.85);
+      border: 1px solid var(--card-border);
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.9rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.65rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.78rem 1.4rem;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-sileo {
+      background: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+      color: #061018;
+      box-shadow: 0 8px 24px rgba(14, 165, 233, 0.28);
+    }
+
+    .btn-zebra {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-copy {
+      background: rgba(40, 217, 115, 0.14);
+      color: var(--accent-green);
+      border-color: rgba(40, 217, 115, 0.35);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1.15rem;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 1.6rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      transform: translateY(-3px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-green {
+      background: rgba(40, 217, 115, 0.16);
+      color: var(--accent-green);
+      border: 1px solid rgba(40, 217, 115, 0.35);
+    }
+
+    .badge-cyan {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 1.4rem;
+      font-size: 0.88rem;
+      color: #d1d5db;
+    }
+
+    .feature-list li {
+      margin-bottom: 0.4rem;
+      padding-left: 1.15rem;
+      position: relative;
+    }
+
+    .feature-list li::before {
+      content: "⚡";
+      position: absolute;
+      left: 0;
+      font-size: 0.78rem;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+    }
+
+    .card-link {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      transition: background 0.15s ease;
+    }
+
+    .card-link:hover {
+      background: rgba(56, 189, 248, 0.2);
+    }
+
+    footer {
+      margin-top: 3.5rem;
+      text-align: center;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .donate-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+      margin: 1rem 0 1.25rem;
+    }
+
+    .donate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .donate-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="CydiaIcon.png" alt="dnullptr Repo Icon" class="repo-icon" />
+      <h1>dnullptr's Official Repo</h1>
+      <p class="subtitle">
+        Free &amp; open-source rootless iOS jailbreak tweaks for Dopamine &amp; Palera1n (<code>iphoneos-arm64</code> / <code>arm64e</code>).
+      </p>
+      <div class="url-pill" id="repoUrlText">https://dnullptr.github.io/repo/</div>
+      <div class="btn-row">
+        <a class="btn btn-sileo" href="sileo://source/https://dnullptr.github.io/repo/">
+          <span>➕ Add to Sileo</span>
+        </a>
+        <a class="btn btn-zebra" href="zbra://sources/add/https://dnullptr.github.io/repo/">
+          <span>🦓 Add to Zebra</span>
+        </a>
+        <button class="btn btn-copy" id="copyBtn" onclick="copyRepoUrl()">
+          <span id="copyBtnText">📋 Copy Repo URL</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="section-title">📦 Hosted Rootless Tweaks</div>
+
+    <div class="grid">
+      <!-- MetalFG Card -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <span class="card-title">⚡ MetalFG</span>
+            <span class="badge badge-green">v2.3.0 Open Beta</span>
+          </div>
+          <p class="card-desc">
+            Real-time driver-level GPU Frame Generation &amp; Optical Flow Interpolation engine for 120Hz ProMotion iOS devices (LSFG / DLSS 3 / SMFG 1.1 style).
+          </p>
+          <ul class="feature-list">
+            <li>True 1-Frame Latency Midpoint Synthesis (<code>60 → 120 FPS</code>)</li>
+            <li>SMFG 1.1 Coarse-to-Fine Optical Flow &amp; Parabolic Sub-Pixel Fit</li>
+            <li>5x5 Bilateral Fluid Filter &amp; Clamped Catmull-Rom 5-Tap Sharp Read</li>
+            <li>Live In-Game Frosted Glass Tuning Panel &amp; HUD Protection</li>
+            <li>100% Dopamine Userspace-Reboot Safe</li>
+          </ul>
+        </div>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/dnullptr/MetalFG" target="_blank" rel="noopener">GitHub Source</a>
+          <a class="card-link" href="depictions/metalfg.json" target="_blank" rel="noopener">Sileo Depiction</a>
+        </div>
+      </div>
+
+      <!-- DePuke Card -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <span class="card-title">🚗 DePuke</span>
+            <span class="badge badge-cyan">v1.0.1 Stable</span>
+          </div>
+          <p class="card-desc">
+            Rootless iOS tweak backporting iOS 18's Vehicle Motion Cues to iOS 15.0 – 16.5+ using real-time CoreMotion inertial sensor fusion.
+          </p>
+          <ul class="feature-list">
+            <li>Real-time CoreMotion accelerometer &amp; gyroscope signal fusion</li>
+            <li>Smooth peripheral motion dots counteracting vehicle acceleration</li>
+            <li>100% touch-passthrough system-wide window overlay</li>
+            <li>Lightweight &amp; battery-conscious for rootless arm64 / arm64e</li>
+          </ul>
+        </div>
+        <div class="card-links">
+          <a class="card-link" href="https://github.com/dnullptr/DePuke" target="_blank" rel="noopener">GitHub Source</a>
+          <a class="card-link" href="depictions/depuke.json" target="_blank" rel="noopener">Sileo Depiction</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>100% Free &amp; Open-Source Forever. Built with ❤️ by <strong>dnullptr</strong>.</p>
+      <div class="donate-row">
+        <a class="donate-btn" href="https://github.com/dnullptr" target="_blank" rel="noopener">🐙 GitHub (@dnullptr)</a>
+        <a class="donate-btn" href="https://ko-fi.com/dnullptr" target="_blank" rel="noopener">🍺 Buy Me a Beer (Ko-fi)</a>
+        <a class="donate-btn" href="https://paypal.me/dnullptr" target="_blank" rel="noopener">💙 Donate (PayPal)</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function copyRepoUrl() {
+      const url = "https://dnullptr.github.io/repo/";
+      navigator.clipboard.writeText(url).then(() => {
+        const btnText = document.getElementById("copyBtnText");
+        btnText.textContent = "✅ Copied to Clipboard!";
+        setTimeout(() => {
+          btnText.textContent = "📋 Copy Repo URL";
+        }, 2200);
+      });
+    }
+  </script>
+</body>
+</html>

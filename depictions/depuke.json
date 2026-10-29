@@ -1,0 +1,84 @@
+{
+  "minVersion": "0.4",
+  "class": "DepictionTabView",
+  "tintColor": "#38bdf8",
+  "tabs": [
+    {
+      "class": "DepictionStackView",
+      "tabname": "Details",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Vehicle Motion Cues Backport for iOS 15 & 16",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "**DePuke** is a lightweight, battery-conscious rootless iOS tweak that backports iOS 18's **Vehicle Motion Cues** to **iOS 15.0 – 16.5+** using real-time `CoreMotion` accelerometer and gyroscope sensor fusion.\n\n### How It Works\nMotion sickness in vehicles happens when your eyes focus on a stationary screen while your inner ear senses linear acceleration, braking, and turns. **DePuke** renders smooth, non-intrusive peripheral motion dots along the edges of your screen that react in real time to vehicle inertial forces—resolving sensory conflict without blocking touch input or UI interaction.\n\n### Key Features\n- **Real-Time CoreMotion Signal Processing:** Low-pass filtered inertial acceleration & angular velocity fusion for natural, jitter-free dot motion.\n- **System-Wide Touch-Passthrough Overlay:** Works seamlessly across all apps while passing 100% of touches through to the underlying interface.\n- **Rootless Native (`arm64` / `arm64e`):** Built for **Dopamine** and **Palera1n** rootless jailbreaks.\n- **100% Free & Open-Source:** Released freely for the jailbreak community."
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "Information"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Version",
+          "text": "1.0.1"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "Compatibility",
+          "text": "iOS 15.0 – 16.6.1+ (Rootless arm64 / arm64e)"
+        },
+        {
+          "class": "DepictionTableTextView",
+          "title": "License",
+          "text": "Free & Open-Source"
+        },
+        {
+          "class": "DepictionSeparatorView"
+        },
+        {
+          "class": "DepictionHeaderView",
+          "title": "Source Code & Support"
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "GitHub Source Code",
+          "action": "https://github.com/dnullptr/DePuke",
+          "openExternal": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "Ko-fi (Buy Me a Beer 🍺)",
+          "action": "https://ko-fi.com/dnullptr",
+          "openExternal": true
+        },
+        {
+          "class": "DepictionTableButtonView",
+          "title": "PayPal Donate 💙",
+          "action": "https://paypal.me/dnullptr",
+          "openExternal": true
+        }
+      ]
+    },
+    {
+      "class": "DepictionStackView",
+      "tabname": "Changelog",
+      "views": [
+        {
+          "class": "DepictionSubheaderView",
+          "title": "Version 1.0.1",
+          "useBoldText": true
+        },
+        {
+          "class": "DepictionMarkdownView",
+          "markdown": "- Refined `CoreMotion` inertial smoothing and peripheral dot responsiveness.\n- Improved rootless preferences persistence and low-power idle handling."
+        }
+      ]
+    }
+  ]
+}

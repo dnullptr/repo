@@ -1,0 +1,38 @@
+Package: com.dnullptr.depuke
+Name: DePuke
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader, com.opa334.ccsupport
+Description: Backport of iOS 18 Vehicle Motion Cues for iOS 15.0 - 16.5+ (Rootless).
+Maintainer: dnullptr
+Author: dnullptr
+Section: Tweaks
+Tag: role::tweaks
+Icon: file:///Library/PreferenceBundles/DePukePrefs.bundle/logo@3x.png
+Architecture: iphoneos-arm64
+Version: 1.0.1
+Installed-Size: 1084
+SileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json
+Filename: ./debs/com.dnullptr.depuke_1.0.1_iphoneos-arm64.deb
+Size: 417118
+MD5sum: 4cb83f7ed5d14795424dbffe66c2d611
+SHA1: df07a9bb7254248d1cb4f11be8300c14d2a2fdce
+SHA256: 3ce00a14514ff371977a4b8f48e28667de4fc876cbcc63e163a79b66c9df1778
+
+Package: com.dnullptr.metalfg
+Name: MetalFG
+Depends: mobilesubstrate (>= 0.9.5000)
+Description: High-performance GPU Frame Interpolation (SMFG 1.1 True-Midpoint Engine) with Coarse-to-Fine Optical Flow, Hardware-Paced 120Hz ProMotion VSYNC Cadence, and Dopamine Reboot-Safe Injection for iOS 16 ProMotion devices.
+Maintainer: MetalFG Team
+Author: MetalFG Team
+Section: Tweaks
+Tag: role::hacker
+Architecture: iphoneos-arm64
+Version: 2.3.0
+Installed-Size: 372
+SileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json
+Icon: https://dnullptr.github.io/repo/CydiaIcon.png
+Filename: ./debs/com.dnullptr.metalfg_2.3.0_iphoneos-arm64.deb
+Size: 75026
+MD5sum: e64ed43dc0ad9d951eb363b22ef32c1a
+SHA1: b445aa7088c198fa07b6269843b39d86a9429981
+SHA256: fa1494bcf86ba1f10f5b231a20f9b5f2f644e915cbaf6e91aae6dc9429e5f723
+

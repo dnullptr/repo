@@ -1,0 +1,8 @@
+Origin: dnullptr's Repo
+Label: dnullptr
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm64 iphoneos-arm64e
+Components: main
+Description: Official rootless iOS jailbreak repository by dnullptr (MetalFG, DePuke)
