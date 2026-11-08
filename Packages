@@ -18,21 +18,22 @@ Icon: https://raw.githubusercontent.com/dnullptr/DePuke/main/layout/Library/Pref
 SileoDepiction: https://dnullptr.github.io/repo/depictions/depuke.json
 
 Package: com.dnullptr.metalfg
-Version: 2.3.0
+Version: 2.4.0
 Architecture: iphoneos-arm64
-Maintainer: MetalFG Team
+Maintainer: dnullptr
 Installed-Size: 372
 Depends: mobilesubstrate (>= 0.9.5000)
-Filename: ./debs/com.dnullptr.metalfg_2.3.0_iphoneos-arm64.deb
-Size: 75026
-MD5sum: e64ed43dc0ad9d951eb363b22ef32c1a
-SHA1: b445aa7088c198fa07b6269843b39d86a9429981
-SHA256: fa1494bcf86ba1f10f5b231a20f9b5f2f644e915cbaf6e91aae6dc9429e5f723
+Filename: ./debs/com.dnullptr.metalfg_2.4.0_iphoneos-arm64.deb
+Size: 76314
+MD5sum: cd2dacfcaa62e71dde066aa3d79cf08c
+SHA1: 685c4eec4ff58f20ab63c27bbbf287e962cb83e6
+SHA256: 98a1e4532ab8eaa4b5fd1fc074787aa0d40cda1187e2be75410715deadb232e3
 Section: Tweaks
-Description: High-performance GPU Frame Interpolation (SMFG 1.1 True-Midpoint Engine) with Coarse-to-Fine Optical Flow, Hardware-Paced 120Hz ProMotion VSYNC Cadence, and Dopamine Reboot-Safe Injection for iOS 16 ProMotion devices.
+Description: High-performance GPU Frame Interpolation (SMFG 1.3 Super-Motion Engine) with Zero-Mean Optical Flow, Hardware-Paced 120Hz ProMotion VSYNC Cadence, and Dopamine Reboot-Safe Injection for iOS 16 ProMotion devices.
 Tag: role::hacker
-Author: MetalFG Team
+Author: dnullptr
 Name: MetalFG
+Sileodepiction: https://dnullptr.github.io/repo/depictions/metalfg.json
 Icon: https://dnullptr.github.io/repo/icons/metalfg.png
 SileoDepiction: https://dnullptr.github.io/repo/depictions/metalfg.json
 
