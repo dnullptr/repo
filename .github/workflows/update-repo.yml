@@ -6,6 +6,7 @@ on:
     paths:
       - 'debs/**'
       - 'Release'
+      - '.github/workflows/update-repo.yml'
   schedule:
     - cron: '0 */2 * * *'
   workflow_dispatch:
@@ -26,14 +27,35 @@ jobs:
           sudo apt-get install -y dpkg-dev zstd xz-utils bzip2 python3
           mkdir -p debs
           python3 - << 'EOF'
-          import os, json, shutil, urllib.request
+          import os, json, shutil, time, urllib.request, urllib.error
+
+          def fetch(url, dest=None, attempts=6):
+              # GitHub's API/CDN occasionally returns 5xx (e.g. 504) right after a release upload
+              for i in range(attempts):
+                  try:
+                      req = urllib.request.Request(url, headers={"User-Agent": "dnullptr-repo-sync"})
+                      with urllib.request.urlopen(req, timeout=120) as resp:
+                          if dest is None:
+                              return resp.read()
+                          tmp = dest + ".part"
+                          with open(tmp, "wb") as out:
+                              shutil.copyfileobj(resp, out)
+                          os.replace(tmp, dest)
+                          return None
+                  except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+                      code = getattr(e, "code", None)
+                      if code is not None and code < 500 and code != 429:
+                          raise
+                      if i == attempts - 1:
+                          raise
+                      wait = 10 * (i + 1)
+                      print(f"[!] {url} failed ({e}); retrying in {wait}s")
+                      time.sleep(wait)
 
           repos = ["dnullptr/MetalFG", "dnullptr/DePuke"]
           for repo in repos:
               url = f"https://api.github.com/repos/{repo}/releases"
-              req = urllib.request.Request(url, headers={"User-Agent": "dnullptr-repo-sync"})
-              with urllib.request.urlopen(req) as resp:
-                  releases = json.loads(resp.read().decode("utf-8"))
+              releases = json.loads(fetch(url).decode("utf-8"))
               if not releases:
                   continue
               # Find newest .deb asset across releases (sorted by updated_at)
@@ -46,15 +68,13 @@ jobs:
                   deb_assets.sort(reverse=True)
                   _, name, dl_url = deb_assets[0]
                   pkg_prefix = name.split("_")[0] + "_"
-                  # Remove older versions of the same package in debs/
+                  dest = os.path.join("debs", name)
+                  print(f"[+] Downloading latest {repo} package: {name}")
+                  fetch(dl_url, dest)
+                  # Remove older versions of the same package only after the new one downloaded
                   for existing in os.listdir("debs"):
                       if existing.startswith(pkg_prefix) and existing != name:
                           os.remove(os.path.join("debs", existing))
-                  dest = os.path.join("debs", name)
-                  print(f"[+] Downloading latest {repo} package: {name}")
-                  dreq = urllib.request.Request(dl_url, headers={"User-Agent": "dnullptr-repo-sync"})
-                  with urllib.request.urlopen(dreq) as dresp, open(dest, "wb") as out:
-                      shutil.copyfileobj(dresp, out)
           EOF
 
           dpkg-scanpackages -m ./debs > Packages
